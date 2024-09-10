@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './sala.css';
 import { questions } from '../data/questions.jsx';
+import App from "../App.jsx";
 
 function Sala({ setHasCollided }) {
   const [currentQuestion, setCurrentQuestion] = useState(getRandomQuestion());
@@ -8,34 +9,46 @@ function Sala({ setHasCollided }) {
   const [attempts, setAttempts] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
+  // Função para obter uma pergunta aleatória
   function getRandomQuestion() {
     const randomIndex = Math.floor(Math.random() * questions.length);
     return questions[randomIndex];
   }
 
+  // Função para lidar com a resposta do jogador
   function handleAnswer(optionIndex) {
     if (optionIndex === currentQuestion.answer) {
+      // Resposta correta: adiciona pontos e passa para a próxima pergunta
       setScore(score + 100);
       handleNewQuestion();
     } else {
-      handleNewQuestion();
-      setAttempts(attempts + 1);
-      if (attempts + 1 >= 3) {
-        setGameOver(true);
+      // Resposta errada: adiciona uma tentativa e verifica o game over
+      const newAttempts = attempts + 1;
+      setAttempts(newAttempts);
+
+      if (newAttempts >= 3) {
+        setGameOver(true); // Fim de jogo após 3 tentativas erradas
+      } else {
+        handleNewQuestion();
       }
     }
   }
 
+  // Função para puxar uma nova pergunta
   function handleNewQuestion() {
     setCurrentQuestion(getRandomQuestion());
   }
 
+  // Função para fechar a sala e voltar ao App
   const handleClose = () => {
-    setHasCollided(false); // Atualiza o estado para voltar ao componente App
+    setHasCollided(false);
   };
 
+  // Quando o jogo termina, mostra uma mensagem de Game Over
   if (gameOver) {
-    return <App />;
+    return (
+      <App/>
+    );
   }
 
   return (
@@ -45,7 +58,7 @@ function Sala({ setHasCollided }) {
       </div>
 
       <div id="voltarContainer">
-        <span className="voltar" onClick={handleClose}>voltar</span>
+        <span className="voltar" onClick={handleClose}>Voltar</span>
       </div>
 
       <div id="bubbleSpeechContainer">
@@ -54,7 +67,7 @@ function Sala({ setHasCollided }) {
       <div id="jogoContainer">
         <div id="respostasContainer">
           <div className="score">
-            <p className="">Score: {score}</p>
+            <p>Score: {score}</p>
             <p className="errors">Erros: {attempts}</p>
           </div>
           <div id="containerRespostas">

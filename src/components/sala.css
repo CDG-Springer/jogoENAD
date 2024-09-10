@@ -22,7 +22,7 @@ body{
 	-moz-box-shadow: 0px 0px 24px 3px rgba(0, 0, 0, 0.75);
 	box-shadow: 0px 0px 24px 3px rgba(0, 0, 0, 0.75);
 
-	width: 90%;
+	width: 85%;
 	height: 30rem;
 	font-size: 1rem;
 	border: 20px solid #dbb537;
@@ -69,7 +69,25 @@ body{
 	right: 0;
 	bottom: 0;
 	width: 20%;
+	z-index: 999;
 	/* background-color: red; */
+}
+
+#voltarContainer{
+	background-color: #13773d;
+	color: white;
+	position: absolute;
+	width: 4vw;
+	margin: 1rem;
+	border: 5px solid #dbb537;
+	font-family: 'Comic Sans MS';
+	height: 4vw;
+	border-radius: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	cursor: pointer;
 }
 
 .avatar {

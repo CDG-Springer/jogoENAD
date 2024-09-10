@@ -3,77 +3,66 @@ import './App.css';
 import Sala from './components/sala.jsx';
 
 function App() {
-  // Estado para a posição do player
   const [position, setPosition] = useState({ top: '60vh', left: '75vw' });
-
-  // Estado para determinar se o jogador colidiu com o quadrado verde
   const [hasCollided, setHasCollided] = useState(false);
 
   const playerRef = useRef(null);
   const barreiraRef = useRef(null);
   const [scale, setScale] = useState(1);
 
-  // Tamanho do player e do quadrado verde (em porcentagem da tela)
   const playerSize = 20; // Em porcentagem da altura (vh)
   const greenBoxSize = 10; // Em porcentagem da altura (vh)
-
-  // Posições iniciais do quadrado verde
   const greenBoxPosition = { top: '40vh', left: '30vw' };
 
-  // Função para mover o player com base na tecla pressionada
   const handleKeyDown = (event) => {
     setPosition((prevPosition) => {
-      // Calcula as novas posições em porcentagem
       let newTop = parseFloat(prevPosition.top);
       let newLeft = parseFloat(prevPosition.left);
 
       switch (event.key) {
         case 'ArrowUp':
-          newTop -= 2; // Move o jogador 2% para cima
+          newTop -= 0.8;
           break;
         case 'ArrowDown':
-          newTop += 2;
+          newTop += 0.8;
           break;
         case 'ArrowLeft':
           setScale(1);
-          newLeft -= 2;
+          newLeft -= 0.8;
           break;
         case 'ArrowRight':
           setScale(-1);
-          newLeft += 2;
+          newLeft += 0.8;
           break;
         default:
           break;
       }
 
-      // Verifica se o player está dentro dos limites da tela e da barreira
       const barreiraBottom = barreiraRef.current.getBoundingClientRect().bottom / window.innerHeight * 100;
-      const maxBottom = 90; // Limite inferior em % da altura da viewport
-      const maxLeft = 0; // Limite esquerdo
-      const maxRight = 90; // Limite direito em % da largura da viewport
+      const maxBottom = 90;
+      const maxLeft = 0;
+      const maxRight = 90;
 
       return {
-        top: `${Math.min(Math.max(newTop, barreiraBottom), maxBottom)}vh`, // Impede de ultrapassar a barreira
+        top: `${Math.min(Math.max(newTop, barreiraBottom), maxBottom)}vh`,
         left: `${Math.min(Math.max(newLeft, maxLeft), maxRight)}vw`,
       };
     });
   };
 
-  // Verifica colisão entre o player e o quadrado verde
   useEffect(() => {
     const playerElement = playerRef.current;
     const playerRect = playerElement.getBoundingClientRect();
-    const greenBoxElement = document.querySelector('.greenBox'); // Obtém o elemento do quadrado verde
+    const greenBoxElement = document.querySelector('.greenBox');
     const greenBoxRect = greenBoxElement.getBoundingClientRect();
 
-    // Verifica se há colisão entre os elementos
     if (
       playerRect.left < greenBoxRect.left + greenBoxRect.width &&
       playerRect.left + playerRect.width > greenBoxRect.left &&
       playerRect.top < greenBoxRect.top + greenBoxRect.height &&
       playerRect.top + playerRect.height > greenBoxRect.top
     ) {
-      setHasCollided(true); // Troca para o componente Sala quando colidir
+      setHasCollided(true);
     }
   }, [position]);
 
@@ -86,18 +75,15 @@ function App() {
     };
   }, [hasCollided]);
 
-  // Renderiza o componente Sala ao detectar colisão
   if (hasCollided) {
-    return <Sala />;
+    return <Sala setHasCollided={setHasCollided} />;
   }
 
   return (
     <>
       <div className="roomContainer">
-        {/* Barreira que impede o jogador de ir para cima */}
         <div className="barreira" ref={barreiraRef}></div>
 
-        {/* Player */}
         <div
           className="player"
           ref={playerRef}
@@ -111,7 +97,6 @@ function App() {
           }}
         ></div>
 
-        {/* Quadrado verde */}
         <div
           className="greenBox"
           style={{
@@ -120,7 +105,6 @@ function App() {
             width: `${greenBoxSize}vw`,
             height: `${greenBoxSize}vh`,
             position: 'absolute',
-            // background: 'green'
           }}
         ></div>
       </div>

@@ -2,7 +2,7 @@
   "name": "milhao",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://CDG-Springer.github.io/jogoProfessorPergunta",
+  "homepage": "https://cdg-springer.github.io/jogoENAD",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",

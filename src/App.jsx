@@ -4,7 +4,7 @@ import Sala from './components/sala.jsx';
 
 function App() {
   // Estado para a posição do player
-  const [position, setPosition] = useState({ top: '45vh', left: '75vw' });
+  const [position, setPosition] = useState({ top: '60vh', left: '75vw' });
 
   // Estado para determinar se o jogador colidiu com o quadrado verde
   const [hasCollided, setHasCollided] = useState(false);
@@ -13,9 +13,9 @@ function App() {
   const barreiraRef = useRef(null);
   const [scale, setScale] = useState(1);
 
-  // Tamanho do player e do quadrado verde (agora relativos ao tamanho da tela)
-  const playerSize = 20; // Em porcentagem (10vw para 10% da largura da viewport)
-  const greenBoxSize = 10; // Em porcentagem
+  // Tamanho do player e do quadrado verde (em porcentagem da tela)
+  const playerSize = 20; // Em porcentagem da altura (vh)
+  const greenBoxSize = 10; // Em porcentagem da altura (vh)
 
   // Posições iniciais do quadrado verde
   const greenBoxPosition = { top: '40vh', left: '30vw' };
@@ -23,7 +23,7 @@ function App() {
   // Função para mover o player com base na tecla pressionada
   const handleKeyDown = (event) => {
     setPosition((prevPosition) => {
-      // Calcula as novas posições em porcentagem (usando `vw` e `vh`)
+      // Calcula as novas posições em porcentagem
       let newTop = parseFloat(prevPosition.top);
       let newLeft = parseFloat(prevPosition.left);
 
@@ -49,7 +49,7 @@ function App() {
       // Verifica se o player está dentro dos limites da tela e da barreira
       const barreiraBottom = barreiraRef.current.getBoundingClientRect().bottom / window.innerHeight * 100;
       const maxBottom = 90; // Limite inferior em % da altura da viewport
-      const maxLeft = 0;
+      const maxLeft = 0; // Limite esquerdo
       const maxRight = 90; // Limite direito em % da largura da viewport
 
       return {
@@ -61,16 +61,17 @@ function App() {
 
   // Verifica colisão entre o player e o quadrado verde
   useEffect(() => {
-    const playerTop = parseFloat(position.top);
-    const playerLeft = parseFloat(position.left);
-    const greenBoxTop = parseFloat(greenBoxPosition.top);
-    const greenBoxLeft = parseFloat(greenBoxPosition.left);
+    const playerElement = playerRef.current;
+    const playerRect = playerElement.getBoundingClientRect();
+    const greenBoxElement = document.querySelector('.greenBox'); // Obtém o elemento do quadrado verde
+    const greenBoxRect = greenBoxElement.getBoundingClientRect();
 
+    // Verifica se há colisão entre os elementos
     if (
-      playerLeft < greenBoxLeft + greenBoxSize &&
-      playerLeft + playerSize > greenBoxLeft &&
-      playerTop < greenBoxTop + greenBoxSize &&
-      playerTop + playerSize > greenBoxTop
+      playerRect.left < greenBoxRect.left + greenBoxRect.width &&
+      playerRect.left + playerRect.width > greenBoxRect.left &&
+      playerRect.top < greenBoxRect.top + greenBoxRect.height &&
+      playerRect.top + playerRect.height > greenBoxRect.top
     ) {
       setHasCollided(true); // Troca para o componente Sala quando colidir
     }
@@ -106,7 +107,6 @@ function App() {
             width: ``,
             height: `${playerSize}vh`,
             position: 'absolute',
-            // backgroundColor: 'blue',
             transform: `scaleX(${scale})`,
           }}
         ></div>
@@ -120,6 +120,7 @@ function App() {
             width: `${greenBoxSize}vw`,
             height: `${greenBoxSize}vh`,
             position: 'absolute',
+            background: 'green'
           }}
         ></div>
       </div>

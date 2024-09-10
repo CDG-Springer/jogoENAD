@@ -120,7 +120,7 @@ function App() {
             width: `${greenBoxSize}vw`,
             height: `${greenBoxSize}vh`,
             position: 'absolute',
-            background: 'green'
+            // background: 'green'
           }}
         ></div>
       </div>

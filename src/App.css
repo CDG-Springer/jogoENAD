@@ -13,15 +13,26 @@
   .roomContainer {
     width: 100vw;
     height: 100vh;
-    position: relative;
-    background-image: url('assets/floor.webp');
+    background-position: center;
+    background-size: cover;
+    background-image: url('assets/background.png');
   }
   
   .player {
-    width: 50px;
-    height: 50px;
-    background-color: red;
+    width: 150px;
+    height: 150px;
+    background-image: url('assets/personagem3.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
     position: absolute;
+    /* background-color: red; */
+    /* transition: all 0.3s; */
+  }
+
+  .barreira{
+    /* background: red; */
+    width: 100vw;
+    height: 45%;
   }
   
   .greenBox {

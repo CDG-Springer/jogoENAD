@@ -15,13 +15,13 @@
     height: 100vh;
     background-position: center;
     background-size: cover;
-    background-image: url('assets/background.png');
+    background-image: url('assets/background2.png');
   }
   
   .player {
     width: 150px;
     height: 150px;
-    background-image: url('assets/personagem3.gif');
+    background-image: url('assets/personagemParado.png');
     background-size: contain;
     background-repeat: no-repeat;
     position: absolute;

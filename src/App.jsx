@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import Sala from './components/sala.jsx';
 
+import personagemAndando from './assets/personagemAndando2.gif';
+import personagemParado from './assets/personagemParado.png';
+
 function App() {
   const [position, setPosition] = useState({ top: '60vh', left: '75vw' });
   const [hasCollided, setHasCollided] = useState(false);
@@ -22,15 +25,20 @@ function App() {
       switch (event.key) {
         case 'ArrowUp':
           newTop -= 0.8;
+          playerRef.current.style.backgroundImage = `url(${personagemAndando})`;
+          console.log('Imagem carregada:', playerRef.current.style.backgroundImage);
           break;
         case 'ArrowDown':
+          playerRef.current.style.backgroundImage = `url(${personagemAndando})`;
           newTop += 0.8;
           break;
         case 'ArrowLeft':
+          playerRef.current.style.backgroundImage = `url(${personagemAndando})`;
           setScale(1);
           newLeft -= 0.8;
           break;
         case 'ArrowRight':
+          playerRef.current.style.backgroundImage = `url(${personagemAndando})`;
           setScale(-1);
           newLeft += 0.8;
           break;
@@ -68,6 +76,8 @@ function App() {
 
   useEffect(() => {
     if (hasCollided) return;
+
+    window.addEventListener('keyup', handleKeyUp);
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
@@ -78,6 +88,13 @@ function App() {
   if (hasCollided) {
     return <Sala setHasCollided={setHasCollided} />;
   }
+
+  const handleKeyUp = () => {
+    if (playerRef.current) {
+      playerRef.current.style.backgroundImage = `url(${personagemParado})`;
+      // console.log('Imagem carregada:', playerRef.current.style.backgroundImage);
+    }
+  };
 
   return (
     <>
